@@ -42,6 +42,7 @@ class Helpers:
         ctrl.Create(self, -1)
 
         self._add_to_sizer(ctrl, 0)
+        return ctrl
 
     def make_button(
         self,
@@ -67,9 +68,9 @@ class Helpers:
         return button
 
     def make_checkbox(
-        self, parent, label, callback=None, sizer=None, weight=0
+        self, label, callback=None, sizer=None, weight=0
     ):
-        checkbox = wx.CheckBox(parent, weight, label=label)
+        checkbox = wx.CheckBox(self, weight, label=label)
 
         self._add_to_sizer(checkbox, weight, sizer)
 

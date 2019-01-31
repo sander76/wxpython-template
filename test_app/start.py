@@ -9,77 +9,67 @@ import wx
 from wxtempl.helpers import Helpers
 from wxtempl.splitter_window import TwoSplitterWindow
 from wxtempl.tabbed_window import TabUi
+from wxtempl.worker import Worker
 
 
-class TabServer(TwoSplitterWindow, Helpers):
+class TabServer(TwoSplitterWindow):
     def __init__(self, parent):
-        Helpers.__init__(self)
         TwoSplitterWindow.__init__(self, parent)
 
-        self.make_button(
-            self.splitter_window_one,
-            "another button",
-            self.another_button,
-            self.window_one_sizer,
-            shortcut=(wx.ACCEL_NORMAL, "w"),
-        )
+        self.splitter_window_one.make_button(
+            "another button",self.another_button,shortcut=(wx.ACCEL_NORMAL,"w"))
+
+        # )
+        #
+        # self.make_button(
+        #     self.splitter_window_one,
+        #     "another button",
+        #     self.another_button,
+        #     self.window_one_sizer,
+        #     shortcut=(wx.ACCEL_NORMAL, "w"),
+        # )
 
     def another_button(self, event):
         pass
 
 
-class TabDevelop(TwoSplitterWindow, Helpers):
+class TabDevelop(TwoSplitterWindow):
     def __init__(self, parent):
-        Helpers.__init__(self)
-        TwoSplitterWindow.__init__(self, parent)
+        self.short_cuts = []
+        TwoSplitterWindow.__init__(self, parent,shortcuts=self.short_cuts)
+        self.worker=Worker()
 
-        self.doc_folder = wx.TextCtrl(self.splitter_window_one)
+        # self.doc_folder = wx.TextCtrl(self.splitter_window_one)
 
-        self.make_button(
-            self.splitter_window_one,
-            "select folder",
-            self.choose_doc_folder,
-            self.window_one_sizer,
-            shortcut=(wx.ACCEL_NORMAL, "q"),
+        self.splitter_window_one.make_button(
+            "select folder",self.choose_doc_folder,shortcut=(wx.ACCEL_NORMAL,"q")
         )
 
-        self.make_checkbox(
-            self.splitter_window_one,
-            label="develop dirty",
-            sizer=self.window_one_sizer,
+        self.splitter_window_one.make_checkbox("develop dirty")
+
+        self.splitter_window_one.make_checkbox("make_pdf")
+
+        self.splitter_window_one.make_button(
+            "develop",self.on_develop
         )
 
-        self.make_checkbox(
-            self.splitter_window_one, "make_pdf", sizer=self.window_one_sizer
+
+        self.splitter_window_one.make_button(
+            "start process",self.manage_process
         )
 
-        self.make_button(
-            self.splitter_window_one,
-            label="develop",
-            callback=self.on_develop,
-            sizer=self.window_one_sizer,
+        self.splitter_window_one.make_button(
+            "stop process",self.terminate_process
         )
 
-        start_process_button = wx.Button(
-            self.splitter_window_one, 1, label="start process"
-        )
-        start_process_button.Bind(wx.EVT_BUTTON, self.manage_process)
 
-        stop_process_button = wx.Button(
-            self.splitter_window_one, 1, label="stop process"
-        )
-        stop_process_button.Bind(wx.EVT_BUTTON, self.terminate_process)
+        self.doc_folder = self.splitter_window_one.add_ctrl(wx.TextCtrl())
 
-        self.window_one_sizer.Add(self.doc_folder, 0, flag=wx.EXPAND)
-        # menu_container.Add(folder_chooser, 0, flag=wx.EXPAND)
-
-        self.window_one_sizer.Add(start_process_button, 0, flag=wx.EXPAND)
-        self.window_one_sizer.Add(stop_process_button, 0, flag=wx.EXPAND)
 
         self._logger = wx.TextCtrl(
             self.splitter_window_two, style=wx.TE_MULTILINE
         )
-        self.window_two_sizer.Add(self._logger, 1, flag=wx.EXPAND)
+        #self.window_two_sizer.Add(self._logger, 1, flag=wx.EXPAND)
 
         self.serve_task = None
 
