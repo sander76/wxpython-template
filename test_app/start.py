@@ -16,7 +16,7 @@ class TabServer(TwoSplitterWindow):
     def __init__(self, parent):
         TwoSplitterWindow.__init__(self, parent)
 
-        self.splitter_window_one.make_button(
+        self.splitter_window_one.add_button(
             "another button",self.another_button,shortcut=(wx.ACCEL_NORMAL,"w"))
 
         # )
@@ -41,24 +41,24 @@ class TabDevelop(TwoSplitterWindow):
 
         # self.doc_folder = wx.TextCtrl(self.splitter_window_one)
 
-        self.splitter_window_one.make_button(
+        self.splitter_window_one.add_button(
             "select folder",self.choose_doc_folder,shortcut=(wx.ACCEL_NORMAL,"q")
         )
 
-        self.splitter_window_one.make_checkbox("develop dirty")
+        self.splitter_window_one.add_checkbox("develop dirty")
 
-        self.splitter_window_one.make_checkbox("make_pdf")
+        self.splitter_window_one.add_checkbox("make_pdf")
 
-        self.splitter_window_one.make_button(
+        self.splitter_window_one.add_button(
             "develop",self.on_develop
         )
 
 
-        self.splitter_window_one.make_button(
+        self.splitter_window_one.add_button(
             "start process",self.manage_process
         )
 
-        self.splitter_window_one.make_button(
+        self.splitter_window_one.add_button(
             "stop process",self.terminate_process
         )
 

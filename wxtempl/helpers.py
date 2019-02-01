@@ -24,14 +24,14 @@ class Helpers:
 
     def add_static_text(self, text, weight=0):
         txt = wx.StaticText(self, 1, text)
-        
+
         self._add_to_sizer(txt, weight)
         # sizer.Add(txt, weight, flag=wx.EXPAND)
         return txt
 
     def _add_to_sizer(self, window, weight, sizer=None):
         if self.sizer:
-            self.sizer.Add(window, weight, flag=wx.EXPAND)
+            self.sizer.Add(window, weight, wx.EXPAND | wx.ALL, 1)
 
     def add_text_ctrl(self, weight=0):
         txt_ctrl = wx.TextCtrl(self)
@@ -44,7 +44,7 @@ class Helpers:
         self._add_to_sizer(ctrl, 0)
         return ctrl
 
-    def make_button(
+    def add_button(
         self,
         label,
         callback,
@@ -67,9 +67,7 @@ class Helpers:
 
         return button
 
-    def make_checkbox(
-        self, label, callback=None, sizer=None, weight=0
-    ):
+    def add_checkbox(self, label, callback=None, sizer=None, weight=0):
         checkbox = wx.CheckBox(self, weight, label=label)
 
         self._add_to_sizer(checkbox, weight, sizer)
